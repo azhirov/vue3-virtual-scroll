@@ -31,8 +31,7 @@
 import { computed, onMounted, onUnmounted, ref, shallowRef, type StyleValue, watch } from 'vue'
 import { clamp, findClosestSmaller, debounce } from '@/utils/helpers'
 import VlistItem from '@/components/vlist-item.vue'
-
-const emit = defineEmits(['onReachEnd']);
+import { useResizeObserver } from '@/composables/resizeObserver'
 
 interface Item {
   index: number;
@@ -59,9 +58,9 @@ const props = withDefaults(defineProps<{
 });
 
 const itemsCount = computed(() => props.items.length);
-const scrollContainer = ref<HTMLElement | null>(null);
 const viewportHeight = ref(0)
 const totalHeight = ref(0)
+const { contentRect, resizeRef: scrollContainer } = useResizeObserver(undefined, 'border');
 
 const heights = ref<number[]>(Array.from(Array(props.items.length)));
 const offsets = ref(Array.from(Array(props.items.length)))
@@ -151,6 +150,11 @@ watch(scrollTop, () => {
   updatePosition()
 })
 
+watch(() => contentRect.value?.height, height => {
+  viewportHeight.value = height ?? 0
+  recalculateHeightAndPosition()
+})
+
 onUnmounted(() => {
   debouncedHandleScroll.clear();
 });
@@ -159,24 +163,5 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .virtual-scroll-container {
   overflow-y: auto;
-  height: 100%; // Установите желаемую высоту
-
-  .empty-list {
-    text-align: center;
-    padding: 20px;
-  }
-
-  .loading-indicator {
-    text-align: center;
-    padding: 20px;
-  }
-
-  .spacer {
-    width: 100%;
-  }
-
-  .list-item {
-    // Стили для элементов списка
-  }
 }
 </style>

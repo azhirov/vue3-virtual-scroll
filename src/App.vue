@@ -8,6 +8,7 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 const bgs = ['#f5faff', '#fff7ec', '#dffff4', '#ffd7df']
+const height = ref(400);
 const items = ref(Array.from(Array(1500)).map((_item, i) => {
   return {
     height: 50 + getRandomInt(10, 50),
@@ -18,7 +19,8 @@ const items = ref(Array.from(Array(1500)).map((_item, i) => {
 
 <template>
   <div>
-    <vlist :default-item-height="65" :items="items" :scroll-debounce="10">
+    <button @click="height = height + 100">+100px</button>
+    <vlist :default-item-height="65" :items="items" :scroll-debounce="10" :height-debounce="10" :style="{height: `${height}px`}">
       <template #item="{ item, index }">
         <div class="item" :style="{height: `${item.height}px`, background: `${item.bg}`}">
           {{ index + 1 }}
