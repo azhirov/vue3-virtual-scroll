@@ -4,7 +4,7 @@
     class="virtual-scroll-container"
     @scroll.passive="debouncedHandleScroll"
   >
-    <div :style="{ height: `${totalHeight}px`}" v-if="visibleItems.length > 0">
+    <div v-if="visibleItems.length > 0">
       <div
         class="spacer"
         :style="spacerStyle"
@@ -22,6 +22,10 @@
           </slot>
         </az-virtual-scroll-item>
       </template>
+        <div
+          class="spacerBottom"
+          :style="spacerBottomStyle"
+        ></div>
     </div>
     </div>
   </div>
@@ -113,6 +117,19 @@ const visibleItems = computed<Item[]>(
 const spacerStyle = computed<StyleValue>(() => ({
   transform: `translateY(${offsetTop.value}px)`
 }))
+
+const spacerBottomStyle = computed(() => {
+  const lastOffset = offsets.value[lastItemIndex.value] || 0
+  const endOffset = offsets.value[props.items.length - 1] || 0
+  console.log({
+    lastOffset,
+    endOffset,
+  })
+  return {
+    paddingBottom: `${endOffset - lastOffset}px`
+  }
+})
+
 
 let animationFrame = -1;
 const handleScroll = () => {
