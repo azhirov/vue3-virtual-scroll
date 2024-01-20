@@ -1,7 +1,7 @@
 {
   "name": "@azhirov/vue3-virtual-scroll",
   "description": "Virtual scroll for vue3",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "private": false,
   "author": "Artem Zhirov <zhirov24@ya.ru>",
   "homepage": "",
