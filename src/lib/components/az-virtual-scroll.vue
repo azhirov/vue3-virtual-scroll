@@ -13,14 +13,14 @@
         v-for="item in visibleItems"
         :key="item.index"
       >
-        <vlist-item @update:height="handleResize(item.index, $event)">
+        <az-virtual-scroll-item @update:height="handleResize(item.index, $event)">
           <slot
             name="item"
             :item="item.raw"
             :index="item.index"
           >
           </slot>
-        </vlist-item>
+        </az-virtual-scroll-item>
       </template>
     </div>
     </div>
@@ -29,14 +29,18 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, shallowRef, type StyleValue, watch } from 'vue'
-import { clamp, findClosestSmaller, debounce } from '@/utils/helpers'
-import VlistItem from '@/components/vlist-item.vue'
-import { useResizeObserver } from '@/composables/resizeObserver'
+import { clamp, findClosestSmaller, debounce } from '../utils/helpers'
+import { useResizeObserver } from '../composables/resizeObserver'
+import AzVirtualScrollItem from './az-virtual-scroll-item.vue'
 
 interface Item {
   index: number;
   raw: any;
 }
+
+defineOptions({
+  name: 'AzVirtualScroll'
+})
 
 const props = withDefaults(defineProps<{
   items: any[],
@@ -160,7 +164,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .virtual-scroll-container {
   overflow-y: auto;
 }

@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { useResizeObserver } from '@/composables/resizeObserver'
+import { useResizeObserver } from '../composables/resizeObserver'
 import { watch } from 'vue'
+
+defineOptions({
+  name: 'AzVirtualScrollItem'
+})
 
 const emit = defineEmits<{
   'update:height': [height: number],

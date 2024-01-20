@@ -1,0 +1,71 @@
+{
+  "$schema":"http://json.schemastore.org/web-types",
+  "framework": "vue",
+  "name": "@azhirov/vue3-virtual-scroll",
+  "version": "0.0.3",
+  "description-markup": "markdown",
+  "js-types-syntax": "typescript",
+  "contributions": {
+    "html": {
+      "vue-components": [
+        {
+          "name": "az-virtual-scroll",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "required": true,
+              "type": "any[]"
+            },
+            {
+              "name": "defaultItemHeight",
+              "required": true,
+              "description": "Высота элемента списка по умолчанию.\nРекомендуется указывать МИНИМАЛЬНУЮ высоту, чтобы избежать пустого пространства",
+              "type": "number"
+            },
+            {
+              "name": "buffer",
+              "required": false,
+              "description": "Высота \"буферной\" зоны сверху и снизу от viewport",
+              "type": "number",
+              "default": "200"
+            },
+            {
+              "name": "scrollDebounce",
+              "required": false,
+              "type": "number",
+              "default": "50"
+            },
+            {
+              "name": "heightDebounce",
+              "required": false,
+              "type": "number",
+              "default": "50"
+            }
+          ],
+          "slots": [
+            {
+              "name": "item",
+              "vue-properties": [
+                {
+                  "name": "item",
+                  "description": "Raw item",
+                  "type": "any"
+                },
+                {
+                  "name": "index",
+                  "description": "Index of item in items array",
+                  "type": "number"
+                }
+              ]
+            }
+          ],
+          "source": {
+            "module": "./dist/index.js",
+            "symbol": "AzVirtualScroll"
+          }
+        }
+      ]
+    }
+  }
+}

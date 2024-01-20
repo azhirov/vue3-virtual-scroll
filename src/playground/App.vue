@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Vlist from '@/components/vlist.vue'
-
+import { VList } from '../lib'
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -20,13 +19,13 @@ const items = ref(Array.from(Array(1500)).map((_item, i) => {
 <template>
   <div>
     <button @click="height = height + 100">+100px</button>
-    <vlist :default-item-height="65" :items="items" :scroll-debounce="10" :height-debounce="10" :style="{height: `${height}px`}">
+    <v-list :default-item-height="65" :items="items" :scroll-debounce="10" :height-debounce="10" :style="{height: `${height}px`}">
       <template #item="{ item, index }">
         <div class="item" :style="{height: `${item.height}px`, background: `${item.bg}`}">
           {{ index + 1 }}
         </div>
       </template>
-    </vlist>
+    </v-list>
   </div>
 </template>
 

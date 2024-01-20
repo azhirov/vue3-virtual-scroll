@@ -2,7 +2,7 @@
 
 // Utilities
 import { onBeforeUnmount, readonly, ref, watch } from 'vue'
-import { refElement } from '@/utils/helpers'
+import { refElement } from '../utils/helpers'
 
 // Types
 import type { DeepReadonly, Ref } from 'vue'
