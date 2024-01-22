@@ -10,7 +10,7 @@ const bgs = ['#f5faff', '#fff7ec', '#dffff4', '#ffd7df']
 const height = ref(400);
 const items = ref(Array.from(Array(1500)).map((_item, i) => {
   return {
-    height: 50 + getRandomInt(10, 50),
+    height: 50 + getRandomInt(10, 300),
     bg: bgs[i % bgs.length],
   }
 }))
@@ -19,7 +19,7 @@ const items = ref(Array.from(Array(1500)).map((_item, i) => {
 <template>
   <div>
     <button @click="height = height + 100">+100px</button>
-    <az-virtual-scroll :default-item-height="65" :items="items" :scroll-debounce="10" :height-debounce="10" :style="{height: `${height}px`}">
+    <az-virtual-scroll :default-item-height="60" :items="items" :scroll-debounce="0" :height-debounce="0" :style="{height: `${height}px`}">
       <template #item="{ item, index }">
         <div class="item" :style="{height: `${item.height}px`, background: `${item.bg}`}">
           {{ index + 1 }}

@@ -7,12 +7,12 @@ defineOptions({
 })
 
 const emit = defineEmits<{
-  'update:height': [height: number],
+  'update:height': [height: number, el: HTMLElement],
 }>()
 
 const { contentRect, resizeRef } = useResizeObserver(undefined, 'border')
 watch(() => contentRect.value?.height, height => {
-  if (height != null) emit('update:height', height)
+  if (height != null) emit('update:height', height, resizeRef.value!)
 })
 </script>
 

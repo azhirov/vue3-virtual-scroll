@@ -2,7 +2,7 @@
   <div
     ref="scrollContainer"
     class="virtual-scroll-container"
-    @scroll.passive="debouncedHandleScroll"
+    @scroll="debouncedHandleScroll"
   >
     <div v-if="visibleItems.length > 0">
       <div
@@ -13,7 +13,7 @@
         v-for="item in visibleItems"
         :key="item.index"
       >
-        <az-virtual-scroll-item @update:height="handleResize(item.index, $event)">
+        <az-virtual-scroll-item @update:height="(height, el) => handleResize(item.index, height, el)">
           <slot
             name="item"
             :item="item.raw"
@@ -121,10 +121,6 @@ const spacerStyle = computed<StyleValue>(() => ({
 const spacerBottomStyle = computed(() => {
   const lastOffset = offsets.value[lastItemIndex.value] || 0
   const endOffset = offsets.value[props.items.length - 1] || 0
-  console.log({
-    lastOffset,
-    endOffset,
-  })
   return {
     paddingBottom: `${endOffset - lastOffset}px`
   }
@@ -150,10 +146,17 @@ const recalculateHeightAndPosition = debounce(() => {
   updatePosition()
 }, heightDebounceRef)
 
-const handleResize = (index: number, height: number) => {
-  if (getItemHeight(index) === height) return;
-
+const handleResize = (index: number, height: number, el?: HTMLElement) => {
+  const oldHeight = getItemHeight(index);
   heights.value[index] = height
+  if (oldHeight === height) return;
+  const offset = offsets.value[index];
+  if (index >= firstItemIndex.value && index <= lastItemIndex.value && el && scrollContainer.value) {
+    const realScrollTop = scrollContainer.value?.scrollTop || 0;
+    if (scrollTop.value > offset!) {
+      scrollContainer.value.scrollTop = Math.max(0, realScrollTop + height - oldHeight)
+    }
+  }
   recalculateHeightAndPosition()
 }
 
